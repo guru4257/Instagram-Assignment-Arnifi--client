@@ -7,7 +7,11 @@ import {
 } from "../../utils/localStorage";
 import { toast } from "react-toastify";
 
-axios.interceptors.request.use((config) => {
+const backendAxios = axios.create({
+  baseURL: process.env.REACT_APP_BACKEND_API, // Replace with your actual backend URL
+});
+
+backendAxios.interceptors.request.use((config) => {
   const user = getUserFromLocalStorage();
   if (user) {
     config.headers.common["authorization"] = `Bearer ${user.token}`;
